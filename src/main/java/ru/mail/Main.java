@@ -10,6 +10,7 @@ import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.resource.Resource;
+import org.flywaydb.core.Flyway;
 import servlet.AddingFormServlet;
 import servlet.ContentGenerator;
 import servlet.GetProductServlet;
@@ -22,6 +23,12 @@ import java.util.EnumSet;
 public class Main {
 
 	public static void main(String[] args) throws Exception{
+		Flyway flyway = Flyway.configure()
+						.dataSource("jdbc:postgresql://localhost:5432/mail-lab7","postgres","кщще")
+						.locations("db/migration")
+						.load();
+				flyway.migrate();
+
 		Server server = new CustomServer().build();
 
 		ServletContextHandler context = new ServletContextHandler(ServletContextHandler.NO_SESSIONS);
